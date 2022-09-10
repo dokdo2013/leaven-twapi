@@ -28,13 +28,6 @@ const MESSAGE_TYPE_REVOCATION = "revocation";
 // Prepend this string to the HMAC that's created from the message
 const HMAC_PREFIX = "sha256=";
 
-app.use(
-  express.raw({
-    // Need raw message body for signature verification
-    type: "application/json",
-  })
-);
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

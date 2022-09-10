@@ -2,6 +2,7 @@
 require("dotenv").config();
 const crypto = require("crypto");
 const express = require("express");
+const TES = require("tesjs");
 const {
   create_eventsub,
   get_eventsub,
@@ -55,47 +56,47 @@ app.delete("/eventsub/:id", async (req, res) => {
   res.send(await delete_eventsub(req.params.id));
 });
 
-app.post("/eventsub/callback", async (req, res) => {
-  let secret = process.env.TWITCH_WEBHOOK_SECRET;
-  let message = getHmacMessage(req);
-  let hmac = HMAC_PREFIX + getHmac(secret, message); // Signature to compare
+// app.post("/eventsub/callback", async (req, res) => {
+//   let secret = process.env.TWITCH_WEBHOOK_SECRET;
+//   let message = getHmacMessage(req);
+//   let hmac = HMAC_PREFIX + getHmac(secret, message); // Signature to compare
 
-  if (true === verifyMessage(hmac, req.headers[TWITCH_MESSAGE_SIGNATURE])) {
-    console.log("signatures match");
+//   if (true === verifyMessage(hmac, req.headers[TWITCH_MESSAGE_SIGNATURE])) {
+//     console.log("signatures match");
 
-    // Get JSON object from body, so you can process the message.
-    let notification = JSON.parse(req.body);
+//     // Get JSON object from body, so you can process the message.
+//     let notification = JSON.parse(req.body);
 
-    if (MESSAGE_TYPE_NOTIFICATION === req.headers[MESSAGE_TYPE]) {
-      // TODO: Do something with the event's data.
+//     if (MESSAGE_TYPE_NOTIFICATION === req.headers[MESSAGE_TYPE]) {
+//       // TODO: Do something with the event's data.
 
-      console.log(`Event type: ${notification.subscription.type}`);
-      console.log(JSON.stringify(notification.event, null, 4));
+//       console.log(`Event type: ${notification.subscription.type}`);
+//       console.log(JSON.stringify(notification.event, null, 4));
 
-      res.sendStatus(204);
-    } else if (MESSAGE_TYPE_VERIFICATION === req.headers[MESSAGE_TYPE]) {
-      res.status(200).send(notification.challenge);
-    } else if (MESSAGE_TYPE_REVOCATION === req.headers[MESSAGE_TYPE]) {
-      res.sendStatus(204);
+//       res.sendStatus(204);
+//     } else if (MESSAGE_TYPE_VERIFICATION === req.headers[MESSAGE_TYPE]) {
+//       res.status(200).send(notification.challenge);
+//     } else if (MESSAGE_TYPE_REVOCATION === req.headers[MESSAGE_TYPE]) {
+//       res.sendStatus(204);
 
-      console.log(`${notification.subscription.type} notifications revoked!`);
-      console.log(`reason: ${notification.subscription.status}`);
-      console.log(
-        `condition: ${JSON.stringify(
-          notification.subscription.condition,
-          null,
-          4
-        )}`
-      );
-    } else {
-      res.sendStatus(204);
-      console.log(`Unknown message type: ${req.headers[MESSAGE_TYPE]}`);
-    }
-  } else {
-    console.log("403"); // Signatures didn't match.
-    res.sendStatus(403);
-  }
-});
+//       console.log(`${notification.subscription.type} notifications revoked!`);
+//       console.log(`reason: ${notification.subscription.status}`);
+//       console.log(
+//         `condition: ${JSON.stringify(
+//           notification.subscription.condition,
+//           null,
+//           4
+//         )}`
+//       );
+//     } else {
+//       res.sendStatus(204);
+//       console.log(`Unknown message type: ${req.headers[MESSAGE_TYPE]}`);
+//     }
+//   } else {
+//     console.log("403"); // Signatures didn't match.
+//     res.sendStatus(403);
+//   }
+// });
 
 app.get("/token", async (req, res) => {
   const result = await get_app_access_token();
@@ -106,24 +107,31 @@ app.listen(4200, () => {
   console.log("Example app listening on port 4200!");
 });
 
-// Build the message used to get the HMAC.
-function getHmacMessage(request) {
-  return (
-    request.headers[TWITCH_MESSAGE_ID] +
-    request.headers[TWITCH_MESSAGE_TIMESTAMP] +
-    request.body
-  );
-}
+const tes = new TES({
+  identity: {
+    id: process.env.TWITCH_CLIENT_ID,
+    secret: process.env.TWITCH_CLIENT_SECRET,
+  },
+  listener: {
+    baseURL: "https://twapi.haenu.com",
+    secret: process.env.TWITCH_WEBHOOK_SECRET,
+    server: app,
+  },
+});
 
-// Get the HMAC.
-function getHmac(secret, message) {
-  return crypto.createHmac("sha256", secret).update(message).digest("hex");
-}
+tes.on("stream.online", (event) => {
+  console.log(`Stream is online: ${event.broadcaster_user_name}`);
+});
 
-// Verify whether our hash matches the hash that Twitch passed in the header.
-function verifyMessage(hmac, verifySignature) {
-  return crypto.timingSafeEqual(
-    Buffer.from(hmac),
-    Buffer.from(verifySignature)
-  );
-}
+// create a new subscription for the 'channel.update' event for broadcaster '1337'
+tes
+  .subscribe("stream.online", {
+    broadcaster_user_id: "188643459",
+  })
+  .then((_) => {
+    console.log("Subscription successful");
+  })
+  .catch((err) => {
+    console.log("Subscription failed: " + err);
+    // console.log(err);
+  });

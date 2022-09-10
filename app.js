@@ -44,7 +44,7 @@ app.get("/eventsub", async (req, res) => {
 app.post("/eventsub/:id", async (req, res) => {
   const id = req.params.id;
   tes
-    .subscribe("stream.online", {
+    .subscribe("channel.follow", {
       broadcaster_user_id: id,
     })
     .then((_) => {

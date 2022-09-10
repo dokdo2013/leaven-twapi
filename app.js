@@ -52,7 +52,7 @@ app.post("/eventsub/:id", async (req, res) => {
     })
     .catch((err) => {
       console.log("Subscription failed: " + err);
-      // console.log(err);
+      console.log(err);
     });
   // res.send(await create_eventsub(req.params.id));
 });

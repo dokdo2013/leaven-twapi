@@ -11,12 +11,17 @@
 	<div>
 		<button onclick="show('a1')">Show Subscriptions</button>
 		<button onclick="show('a2')">Create Subscription</button>
+		<button onclick="show('a3')">Delete Subscription</button>
 	</div>
 	<br>
 	<div id="a1" class="main" style="display: none"></div>
 	<div id="a2" class="main" style="display: none">
 		<input id="create_id" type="text" placeholder="시청자 ID">
 		<button onclick="create()">등록</button>
+	</div>
+	<div id="a3" class="main" style="display: none">
+		<input id="delete_id" type="text" placeholder="시청자 ID">
+		<button onclick="deleteSub()">삭제</button>
 	</div>
 
 	<script>
@@ -37,6 +42,12 @@
 		async function create() {
 			const id = document.getElementById('create_id').value;
 			const data = await axios.post(`/eventsub/${id}`);
+			console.log(data.data);
+		}
+
+		async function deleteSub() {
+			const id = document.getElementById('delete_id').value;
+			const data = await axios.delete(`/eventsub/${id}`);
 			console.log(data.data);
 		}
 	</script>

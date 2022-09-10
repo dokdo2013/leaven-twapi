@@ -49,7 +49,7 @@ app.post("/eventsub/callback", async (req, res) => {
   console.log(data);
 
   // if header have 'Twitch-Eventsub-Message-Type', then return data.challenge
-  if (req.headers["twitch-eventsub-message-type"]) {
+  if (req.headers["Twitch-Eventsub-Message-Type"] || req.body?.challenge) {
     res.send(data.challenge);
   } else {
     res.send(data);

@@ -49,18 +49,18 @@ app.get("/eventsub", async (req, res) => {
 });
 
 app.post("/eventsub/:id", async (req, res) => {
-  await tes
+  tes
     .subscribe("stream.online", {
       broadcaster_user_id: "188643459",
     })
     .then((_) => {
       console.log("Subscription successful");
+      res.send("Subscription successful");
     })
     .catch((err) => {
       console.log("Subscription failed: " + err);
       // console.log(err);
     });
-  res.send("Subscription successful");
   // res.send(await create_eventsub(req.params.id));
 });
 

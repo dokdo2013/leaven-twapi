@@ -43,6 +43,19 @@ app.get("/eventsub/callback", async (req, res) => {
   }
 });
 
+app.post("/eventsub/callback", async (req, res) => {
+  console.log("is post");
+  const data = req.body || {};
+  console.log(data);
+
+  // if header have 'Twitch-Eventsub-Message-Type', then return data.challenge
+  if (req.headers["twitch-eventsub-message-type"]) {
+    res.send(data.challenge);
+  } else {
+    res.send(data);
+  }
+});
+
 app.get("/token", async (req, res) => {
   const result = await get_app_access_token();
   res.send(result);

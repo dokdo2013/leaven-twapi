@@ -20,7 +20,7 @@ const create_eventsub = async (type, user_id) => {
     transport: {
       method: "webhook",
       callback: "https://twapi.haenu.com/teswh/event",
-      secret: "secret123456",
+      secret: process.env.TWITCH_WEBHOOK_SECRET,
     },
   };
   try {

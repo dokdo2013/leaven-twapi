@@ -27,8 +27,9 @@ app.get("/eventsub", async (req, res) => {
 });
 
 app.post("/eventsub/:id", async (req, res) => {
-  res.send(await create_eventsub("stream.online", req.params.id));
-  res.send(await create_eventsub("stream.offline", req.params.id));
+  const online = await create_eventsub("stream.online", req.params.id);
+  const offline = await create_eventsub("stream.offline", req.params.id);
+  res.send({ online, offline });
 });
 
 app.delete("/eventsub/:id", async (req, res) => {

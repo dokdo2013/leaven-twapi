@@ -38,6 +38,6 @@ app.get("/token", async (req, res) => {
   res.send(result);
 });
 
-app.listen(3000, () => {
-  console.log("Example app listening on port 3000!");
+app.listen(4200, () => {
+  console.log("Example app listening on port 4200!");
 });

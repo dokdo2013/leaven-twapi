@@ -34,7 +34,13 @@ app.delete("/eventsub/:id", async (req, res) => {
 app.get("/eventsub/callback", async (req, res) => {
   const data = req.body || {};
   console.log(data);
-  res.send(data);
+
+  // if header have 'Twitch-Eventsub-Message-Type', then return data.challenge
+  if (req.headers["twitch-eventsub-message-type"]) {
+    res.send(data.challenge);
+  } else {
+    res.send(data);
+  }
 });
 
 app.get("/token", async (req, res) => {

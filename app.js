@@ -49,7 +49,19 @@ app.get("/eventsub", async (req, res) => {
 });
 
 app.post("/eventsub/:id", async (req, res) => {
-  res.send(await create_eventsub(req.params.id));
+  await tes
+    .subscribe("stream.online", {
+      broadcaster_user_id: "188643459",
+    })
+    .then((_) => {
+      console.log("Subscription successful");
+    })
+    .catch((err) => {
+      console.log("Subscription failed: " + err);
+      // console.log(err);
+    });
+  res.send("Subscription successful");
+  // res.send(await create_eventsub(req.params.id));
 });
 
 app.delete("/eventsub/:id", async (req, res) => {
@@ -122,16 +134,3 @@ const tes = new TES({
 tes.on("stream.online", (event) => {
   console.log(`Stream is online: ${event.broadcaster_user_name}`);
 });
-
-// create a new subscription for the 'channel.update' event for broadcaster '1337'
-tes
-  .subscribe("stream.online", {
-    broadcaster_user_id: "188643459",
-  })
-  .then((_) => {
-    console.log("Subscription successful");
-  })
-  .catch((err) => {
-    console.log("Subscription failed: " + err);
-    // console.log(err);
-  });

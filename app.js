@@ -42,9 +42,10 @@ app.get("/eventsub", async (req, res) => {
 });
 
 app.post("/eventsub/:id", async (req, res) => {
+  const id = req.params.id;
   tes
     .subscribe("stream.online", {
-      broadcaster_user_id: "188643459",
+      broadcaster_user_id: id,
     })
     .then((_) => {
       console.log("Subscription successful");

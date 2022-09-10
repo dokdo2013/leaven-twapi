@@ -23,6 +23,7 @@ const create_eventsub = async (user_id) => {
   };
   try {
     const res = await axios.post(url, body, { headers: headers });
+    console.log("[CREATE] ", res.data);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -57,6 +58,7 @@ const delete_eventsub = async (id) => {
   };
   try {
     const res = await axios.delete(url, { headers: headers });
+    console.log("[DELETE] ", res.data);
     return res.data;
   } catch (error) {
     console.log(error);

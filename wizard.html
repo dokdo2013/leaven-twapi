@@ -29,14 +29,14 @@
 			show_target.style.display = 'block';
 
 			if (id === 'a1') {
-				const data = await axios.get('http://localhost:3000/eventsub');
+				const data = await axios.get('/eventsub');
 				show_target.innerHTML = JSON.stringify(data.data);
 			}
 		}
 
 		async function create() {
 			const id = document.getElementById('create_id').value;
-			const data = await axios.post(`http://localhost:3000/eventsub/${id}`);
+			const data = await axios.post(`/eventsub/${id}`);
 			console.log(data.data);
 		}
 	</script>

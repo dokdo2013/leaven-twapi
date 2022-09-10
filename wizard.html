@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<title>Wizard</title>
+</head>
+<body>
+	<div>
+		<button onclick="show('a1')">Show Subscriptions</button>
+		<button onclick="show('a2')">Create Subscription</button>
+	</div>
+	<br>
+	<div id="a1" class="main" style="display: none"></div>
+	<div id="a2" class="main" style="display: none">
+		<input id="create_id" type="text" placeholder="시청자 ID">
+		<button onclick="create()">등록</button>
+	</div>
+
+	<script>
+		async function show(id) {
+			const hide_targets = document.getElementsByClassName('main');
+			for (let i = 0; i < hide_targets.length; i++) {
+				hide_targets[i].style.display = 'none';
+			}
+			const show_target = document.getElementById(id);
+			show_target.style.display = 'block';
+
+			if (id === 'a1') {
+				const data = await axios.get('http://localhost:3000/eventsub');
+				show_target.innerHTML = JSON.stringify(data.data);
+			}
+		}
+
+		async function create() {
+			const id = document.getElementById('create_id').value;
+			const data = await axios.post(`http://localhost:3000/eventsub/${id}`);
+			console.log(data.data);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "naver-cafe-twitch-alert-v2",
+  "version": "1.0.0",
+  "description": "트위치 생방송을 시작하면 네이버 카페에 게시물 등록 (네이버 카페 Open API 이용)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dokdo2013/naver-cafe-twitch-alert-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dokdo2013/naver-cafe-twitch-alert-v2/issues"
+  },
+  "homepage": "https://github.com/dokdo2013/naver-cafe-twitch-alert-v2#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "qs": "^6.11.0"
+  }
+}

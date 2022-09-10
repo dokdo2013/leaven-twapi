@@ -27,6 +27,10 @@ app.post("/eventsub/:id", async (req, res) => {
   res.send(await create_eventsub(req.params.id));
 });
 
+app.delete("/eventsub/:id", async (req, res) => {
+  res.send(await delete_eventsub(req.params.id));
+});
+
 app.get("/eventsub/callback", async (req, res) => {
   const data = req.body || {};
   console.log(data);

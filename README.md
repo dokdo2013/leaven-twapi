@@ -1,12 +1,10 @@
-# naver-cafe-twitch-alert
-트위치 생방송을 시작하면 네이버 카페에 게시물 등록 (네이버 카페 Open API 이용)
+# leaven-twapi
+[기존 v1 서비스](https://github.com/dokdo2013/naver-cafe-twitch-alert)
 
-## 파일 설명
-- main.py : 메인 파일
-- fetch_twitch.py : 스트리밍 중인지 확인하는 파일
-- naver_token.py : 네이버 OAuth 처리하는 파일
-- db.py : 데이터베이스 관련된 함수 모아둔 파일
-- write.py : 네이버 카페에 게시물 작성하는 파일
+트위치 생방송을 시작하면 네이버 카페에 게시물 등록해주는 서비스
+
+## 구조 설명
+Twitch EventSub으로 `stream.online` 과 `stream.offline` 데이터를 받아서 처리
 
 ## Database Scheme (DDL)
 ```sql
@@ -64,10 +62,8 @@ DB_DATABASE=  # DB Database
 DB_PORT=  # DB Port
 
 SLACK_URL=  # Slack Webhook URL
-```
 
-## Cronjob
-```sh
-*/3 * * * * /usr/local/bin/python3.9 {DIRECTORY}/main.py
+TWITCH_CLIENT_ID=  # Twitch API Client ID
+TWITCH_CLIENT_SECRET=  # Twitch API Client Secret
+TWITCH_WEBHOOK_SECRET=  # Twitch EventSub Webhook Secret
 ```
-replace {DIRECTORY} to your project directory

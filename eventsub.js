@@ -1,16 +1,18 @@
 require("dotenv").config();
 const axios = require("axios");
 const qs = require("qs");
+const { get_app_access_token } = require("./twitch");
 
 // create twitch eventsub subscription
-const create_eventsub = async (user_id) => {
+const create_eventsub = async (type, user_id) => {
+  const token = await get_app_access_token();
   const url = "https://api.twitch.tv/helix/eventsub/subscriptions";
   const headers = {
     "Client-ID": process.env.TWITCH_CLIENT_ID,
-    Authorization: `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
+    Authorization: `Bearer ${token}`,
   };
   const body = {
-    type: "stream.online",
+    type: type,
     version: "1",
     condition: {
       broadcaster_user_id: user_id,
@@ -32,10 +34,11 @@ const create_eventsub = async (user_id) => {
 
 // get twitch eventsub subscriptions
 const get_eventsub = async () => {
+  const token = await get_app_access_token();
   const url = "https://api.twitch.tv/helix/eventsub/subscriptions";
   const headers = {
     "Client-ID": process.env.TWITCH_CLIENT_ID,
-    Authorization: `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
+    Authorization: `Bearer ${token}`,
   };
   try {
     const res = await axios.get(url, { headers: headers });
@@ -47,6 +50,7 @@ const get_eventsub = async () => {
 
 // delete twitch eventsub subscription
 const delete_eventsub = async (id) => {
+  const token = await get_app_access_token();
   const baseUrl = `https://api.twitch.tv/helix/eventsub/subscriptions`;
   const query = {
     id,
@@ -54,7 +58,7 @@ const delete_eventsub = async (id) => {
   const url = `${baseUrl}?${qs.stringify(query)}`;
   const headers = {
     "Client-ID": process.env.TWITCH_CLIENT_ID,
-    Authorization: `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
+    Authorization: `Bearer ${token}`,
   };
   try {
     const res = await axios.delete(url, { headers: headers });

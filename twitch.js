@@ -11,7 +11,7 @@ const get_app_access_token = async () => {
   try {
     const res = await axios.post(url, data);
     console.log(res);
-    return res.data;
+    return res.data.access_token;
   } catch (error) {
     console.log(error);
   }

@@ -13,7 +13,7 @@ const action = require("./action");
 const Sentry = require("@sentry/node");
 const Tracing = require("@sentry/tracing");
 const db = require("./util/db");
-const cafe = require("./util/cafe");
+const { connect } = require("./util/redis");
 
 const app = express();
 app.use(cors());
@@ -64,6 +64,7 @@ app.delete("/eventsub/:id", async (req, res) => {
 app.listen(4200, () => {
   console.log("twapi listening on port 4200!");
 });
+connect();
 
 const tes = new TES({
   identity: {

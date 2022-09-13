@@ -8,7 +8,9 @@ const redisClient = redis.createClient({
   },
 });
 
-// redisClient.connect();
+const connect = async () => {
+  await redisClient.connect();
+};
 
 redisClient.on("error", function (error) {
   console.error(error);
@@ -38,6 +40,7 @@ const del = async (key) => {
 };
 
 module.exports = {
+  connect,
   get,
   set,
   del,

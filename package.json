@@ -17,12 +17,19 @@
   },
   "homepage": "https://github.com/dokdo2013/naver-cafe-twitch-alert-v2#readme",
   "dependencies": {
+    "@datadog/browser-logs": "^4.19.0",
+    "@sentry/node": "^7.12.1",
+    "@sentry/tracing": "^7.12.1",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "dogapi": "^2.8.4",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "iconv-lite": "^0.6.3",
+    "mysql": "^2.18.1",
     "qs": "^6.11.0",
+    "redis": "^4.3.1",
     "tesjs": "^0.7.0"
   }
 }

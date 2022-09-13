@@ -49,7 +49,7 @@ const online = async (event, subscription) => {
   }
 };
 
-const offline = async (event) => {
+const offline = async (event, subscription) => {
   console.log(`Stream is offline: ${event.broadcaster_user_name}`);
 
   // datadog metric increase

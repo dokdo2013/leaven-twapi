@@ -22,12 +22,16 @@ const getInfo = async (event) => {
 const getReplaceTarget = async (event) => {
   const { stream, user } = await getInfo(event);
 
+  const thumbnail_url = stream?.thumbnail_url
+    .replace("{width}", "1280")
+    .replace("{height}", "720");
+
   return {
     "{방송ID}": stream?.id || "방송ID",
     "{방송제목}": stream?.title || "방송제목",
     "{방송시작시간}": stream?.started_at || "방송시작시간",
     "{시청자수}": stream?.viewer_count || "시청자수",
-    "{방송썸네일}": stream?.thumbnail_url || "방송썸네일",
+    "{방송썸네일}": thumbnail_url || "방송썸네일",
     "{방송카테고리}": stream?.game_name || "방송카테고리",
     "{스트리머}": user?.display_name || "스트리머",
     "{스트리머아이디}": user?.login || "스트리머아이디",

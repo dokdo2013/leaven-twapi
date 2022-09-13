@@ -52,11 +52,6 @@ app.post("/eventsub/:id", async (req, res) => {
   res.send({ online, offline });
 });
 
-app.get("/test", async (req, res) => {
-  const data = await db.getInfo("fad085e7-54ce-4262-aae6-375c379e3cc9");
-  res.send(data);
-});
-
 app.delete("/eventsub/:id", async (req, res) => {
   res.send(await delete_eventsub(req.params.id));
 });

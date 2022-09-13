@@ -11,10 +11,10 @@ const replace = async (str, event) => {
 };
 
 const getInfo = async (event) => {
-  const { broadcaster_user_name } = event;
+  const { broadcaster_user_login } = event;
 
-  const stream = await get_stream(broadcaster_user_name);
-  const user = await get_user(broadcaster_user_name);
+  const stream = await get_stream(broadcaster_user_login);
+  const user = await get_user(broadcaster_user_login);
 
   return { stream, user };
 };

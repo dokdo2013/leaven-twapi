@@ -44,7 +44,7 @@ const online = async (event, subscription) => {
   if (action.tmi?.enabled) {
     const { messageFormat } = action.tmi;
     const message = await substitute.replace(messageFormat, event);
-    await tmi.sendLegacy(event.broadcaster_user_name, message);
+    await tmi.sendLegacy(event.broadcaster_user_login, message);
     datadog.increment("twapi.action.tmi");
   }
 };
@@ -87,7 +87,7 @@ const offline = async (event, subscription) => {
   if (action.tmi?.enabled) {
     const { messageFormat } = action.tmi;
     const message = await substitute.replace(messageFormat, event);
-    await tmi.sendLegacy(event.broadcaster_user_name, message);
+    await tmi.sendLegacy(event.broadcaster_user_login, message);
     datadog.increment("twapi.action.tmi");
   }
 };

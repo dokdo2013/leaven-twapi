@@ -4,7 +4,7 @@ const replace = async (str, event) => {
   const replaceTarget = await getReplaceTarget(event);
 
   for (const [key, value] of Object.entries(replaceTarget)) {
-    str = str.replace(key, value);
+    str = str.replaceAll(key, value);
   }
 
   return str;

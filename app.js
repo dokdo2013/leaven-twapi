@@ -70,6 +70,7 @@ app.delete("/eventsub/:id", async (req, res) => {
 });
 
 app.post("/trigger", async (req, res) => {
+  console.log("twapi triggered");
   const data = req.body;
 
   const auth = req.headers.authorization;

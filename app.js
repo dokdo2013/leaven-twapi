@@ -15,8 +15,10 @@ const Tracing = require("@sentry/tracing");
 const db = require("./util/db");
 const { connect } = require("./util/redis");
 const twitch = require("./twitch");
+const bodyParser = require("body-parser");
 
 const app = express();
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static("./wizard/build"));
 
@@ -80,10 +82,7 @@ app.post("/trigger", async (req, res) => {
   }
 
   // data is json
-  console.log(1, typeof data);
-  console.log(2, data);
-  const { event, subscription } = JSON.parse(data);
-  console.log(3, JSON.parse(data));
+  const { event, subscription } = data;
   await action.online(event, subscription, true);
   res.send("ok");
 });

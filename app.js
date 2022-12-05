@@ -80,7 +80,10 @@ app.post("/trigger", async (req, res) => {
   }
 
   // data is json
+  console.log(1, typeof data);
+  console.log(2, data);
   const { event, subscription } = JSON.parse(data);
+  console.log(3, JSON.parse(data));
   await action.online(event, subscription, true);
   res.send("ok");
 });

@@ -79,7 +79,8 @@ app.post("/trigger", async (req, res) => {
     return;
   }
 
-  const { event, subscription } = data;
+  // data is json
+  const { event, subscription } = JSON.parse(data);
   await action.online(event, subscription, true);
   res.send("ok");
 });

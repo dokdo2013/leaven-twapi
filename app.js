@@ -14,6 +14,7 @@ const Sentry = require("@sentry/node");
 const Tracing = require("@sentry/tracing");
 const db = require("./util/db");
 const { connect } = require("./util/redis");
+const twitch = require("./twitch");
 
 const app = express();
 app.use(cors());
@@ -42,6 +43,18 @@ app.get("/wizard", async (req, res) => {
   res.sendFile(__dirname + "/wizard/build/index.html");
 });
 
+app.get("/user/name/:name", async (req, res) => {
+  const { name } = req.params;
+  const user = await twitch.get_user(name);
+  res.send(user);
+});
+
+app.get("/user/id/:id", async (req, res) => {
+  const { id } = req.params;
+  const user = await twitch.get_user_by_id(id);
+  res.send(user);
+});
+
 app.get("/eventsub", async (req, res) => {
   res.send(await get_eventsub());
 });
@@ -54,6 +67,20 @@ app.post("/eventsub/:id", async (req, res) => {
 
 app.delete("/eventsub/:id", async (req, res) => {
   res.send(await delete_eventsub(req.params.id));
+});
+
+app.post("/trigger", async (req, res) => {
+  const data = req.body;
+
+  const auth = req.headers.authorization;
+  if (auth !== process.env.TMI_API_SECRET) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
+  const { event, subscription } = data;
+  await action.online(event, subscription, true);
+  res.send("ok");
 });
 
 app.listen(4200, () => {

@@ -1,7 +1,7 @@
 const { get_stream, get_user } = require("../twitch");
 
-const replace = async (str, event) => {
-  const replaceTarget = await getReplaceTarget(event);
+const replace = async (str, event, isTriggered = false) => {
+  const replaceTarget = await getReplaceTarget(event, isTriggered);
 
   for (const [key, value] of Object.entries(replaceTarget)) {
     str = str.replaceAll(key, value);
@@ -19,8 +19,8 @@ const getInfo = async (event) => {
   return { stream, user };
 };
 
-const getReplaceTarget = async (event) => {
-  const { stream, user } = await getInfo(event);
+const getReplaceTarget = async (event, isTriggered) => {
+  const { stream, user } = isTriggered ? event : await getInfo(event);
 
   const thumbnail_url = stream?.thumbnail_url
     .replace("{width}", "1280")

@@ -1,5 +1,5 @@
 // get dotenv
-require("dotenv").config();
+// require("dotenv").config();
 const { default: axios } = require("axios");
 const cors = require("cors");
 const express = require("express");
@@ -55,6 +55,10 @@ app.get("/user/id/:id", async (req, res) => {
   const { id } = req.params;
   const user = await twitch.get_user_by_id(id);
   res.send(user);
+});
+
+app.get("/health", function rootHandler(req, res) {
+  res.send("success!");
 });
 
 app.get("/eventsub", async (req, res) => {

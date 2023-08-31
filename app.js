@@ -57,6 +57,12 @@ app.get("/user/id/:id", async (req, res) => {
   res.send(user);
 });
 
+app.get("/user/name/:name/stream", async (req, res) => {
+  const { name } = req.params;
+  const stream = await twitch.get_stream(name);
+  res.send(stream);
+});
+
 app.get("/health", function rootHandler(req, res) {
   res.send("success!");
 });

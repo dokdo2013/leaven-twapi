@@ -69,22 +69,6 @@ app.delete("/eventsub/:id", async (req, res) => {
   res.send(await delete_eventsub(req.params.id));
 });
 
-// app.post("/trigger", async (req, res) => {
-//   console.log("twapi triggered");
-//   const data = req.body;
-
-//   const auth = req.headers.authorization;
-//   if (auth !== process.env.TMI_API_SECRET) {
-//     res.status(401).send("Unauthorized");
-//     return;
-//   }
-
-//   // data is json
-//   const { event, subscription } = data;
-//   await action.online(event, subscription, true);
-//   res.send("ok");
-// });
-
 app.listen(4200, () => {
   console.log("twapi listening on port 4200!");
 });

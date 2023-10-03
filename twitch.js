@@ -1,10 +1,11 @@
 require("dotenv").config();
 const axios = require("axios");
-const redis = require("./util/redis");
+const cache = require("node-cache");
 
 const get_app_access_token = async () => {
   const key = "twapi:twitch_app_access_token";
-  const token = await redis.get(key);
+  const myCache = new cache();
+  const token = myCache.get(key);
   if (token) {
     return token;
   }
@@ -18,7 +19,7 @@ const get_app_access_token = async () => {
   try {
     const res = await axios.post(url, data);
     console.log(res);
-    await redis.set(key, res.data.access_token, 3600);
+    myCache.set(key, res.data.access_token, 3600);
     return res.data.access_token;
   } catch (error) {
     console.log(error);

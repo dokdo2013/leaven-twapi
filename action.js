@@ -3,7 +3,6 @@ const slack = require("./util/slack");
 const datadog = require("./util/datadog");
 const tmi = require("./util/tmi");
 const db = require("./util/db");
-const cafe = require("./util/cafe");
 const substitute = require("./util/substitute");
 
 const online = async (event, subscription, isTriggered = false) => {
@@ -24,13 +23,13 @@ const online = async (event, subscription, isTriggered = false) => {
   }
 
   // 네이버 카페 글 작성
-  if (action.cafe?.enabled) {
-    const { club_id, menu_id, titleFormat, messageFormat } = action.cafe;
-    const title = await substitute.replace(titleFormat, event, isTriggered);
-    const message = await substitute.replace(messageFormat, event, isTriggered);
-    await cafe.write(club_id, menu_id, title, message);
-    datadog.increment("twapi.action.cafe");
-  }
+  // if (action.cafe?.enabled) {
+  //   const { club_id, menu_id, titleFormat, messageFormat } = action.cafe;
+  //   const title = await substitute.replace(titleFormat, event, isTriggered);
+  //   const message = await substitute.replace(messageFormat, event, isTriggered);
+  //   await cafe.write(club_id, menu_id, title, message);
+  //   datadog.increment("twapi.action.cafe");
+  // }
 
   // 슬랙 알림 발송
   if (action.slack?.enabled) {
@@ -67,13 +66,13 @@ const offline = async (event, subscription) => {
   }
 
   // 네이버 카페 글 작성
-  if (action.cafe?.enabled) {
-    const { club_id, menu_id, titleFormat, messageFormat } = action.cafe;
-    const title = await substitute.replace(titleFormat, event);
-    const message = await substitute.replace(messageFormat, event);
-    await cafe.write(club_id, menu_id, title, message);
-    datadog.increment("twapi.action.cafe");
-  }
+  // if (action.cafe?.enabled) {
+  //   const { club_id, menu_id, titleFormat, messageFormat } = action.cafe;
+  //   const title = await substitute.replace(titleFormat, event);
+  //   const message = await substitute.replace(messageFormat, event);
+  //   await cafe.write(club_id, menu_id, title, message);
+  //   datadog.increment("twapi.action.cafe");
+  // }
 
   // 슬랙 알림 발송
   if (action.slack?.enabled) {

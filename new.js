@@ -27,8 +27,6 @@ app.get("/", function rootHandler(req, res) {
   res.send("Hello World!");
 });
 
-app.use(Sentry.Handlers.errorHandler());
-
 app.get("/wizard", async (req, res) => {
   res.sendFile(__dirname + "/wizard/build/index.html");
 });

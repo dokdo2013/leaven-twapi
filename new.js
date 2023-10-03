@@ -83,8 +83,18 @@ const tes = new TES({
   },
 });
 
-tes.on("stream.online", (event, subscription) => {
-  action.online(event, subscription);
+tes.on("stream.online", async (event, subscription) => {
+  const onlineUrl = "http://archivers-listener:3000/recorder";
+
+  const streamData = await twitch.get_stream(event.broadcaster_user_login);
+  const data = {
+    user_id: event.broadcaster_user_id,
+    title: streamData.title,
+  };
+
+  await axios.post(onlineUrl, data);
+
+  // action.online(event, subscription);
 });
 
 tes.on("stream.offline", (event, subscription) => {

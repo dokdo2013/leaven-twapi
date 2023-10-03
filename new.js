@@ -92,11 +92,26 @@ tes.on("stream.online", async (event, subscription) => {
     title: streamData.title,
   };
 
-  await axios.post(onlineUrl, data);
+  await axios.post(onlineUrl, data).catch((err) => {
+    console.error(err);
+  });
 
+  return true;
   // action.online(event, subscription);
 });
 
-tes.on("stream.offline", (event, subscription) => {
-  action.offline(event, subscription);
+tes.on("stream.offline", async (event, subscription) => {
+  const offlineUrl = "http://archivers-listener.archivers:3000/recorder/end";
+
+  await axios
+    .post(offlineUrl, {
+      user_id: event.broadcaster_user_id,
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
+  return true;
+
+  // action.offline(event, subscription);
 });

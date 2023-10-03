@@ -88,7 +88,7 @@ tes.on("stream.online", async (event, subscription) => {
 
   const streamData = await twitch.get_stream(event.broadcaster_user_login);
   const data = {
-    user_id: event.broadcaster_user_id,
+    user_id: event.broadcaster_user_login,
     title: streamData.title,
   };
 
@@ -105,7 +105,7 @@ tes.on("stream.offline", async (event, subscription) => {
 
   await axios
     .post(offlineUrl, {
-      user_id: event.broadcaster_user_id,
+      user_id: event.broadcaster_user_login,
     })
     .catch((err) => {
       console.error(err);

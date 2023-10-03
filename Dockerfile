@@ -34,4 +34,4 @@ COPY --from=builder --chown=node:node /app/ ./
 COPY --from=react-builder --chown=node:node /app/build/ ./wizard/build/
 
 # 실행시킬 파일명이 index.js가 아니라면 적절히 변경해주세요
-CMD ["node", "app.js"]
+CMD ["node", "new.js"]

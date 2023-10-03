@@ -84,7 +84,7 @@ const tes = new TES({
 });
 
 tes.on("stream.online", async (event, subscription) => {
-  const onlineUrl = "http://archivers-listener:3000/recorder";
+  const onlineUrl = "http://archivers-listener.archivers:3000/recorder";
 
   const streamData = await twitch.get_stream(event.broadcaster_user_login);
   const data = {

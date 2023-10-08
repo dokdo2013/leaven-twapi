@@ -84,7 +84,7 @@ const tes = new TES({
 });
 
 tes.on("stream.online", async (event, subscription) => {
-  const onlineUrl = "http://archivers.app/media-api/recorder";
+  const onlineUrl = "https://archivers.app/media-api/recorder";
 
   const streamData = await twitch.get_stream(event.broadcaster_user_login);
   const data = {
@@ -101,7 +101,7 @@ tes.on("stream.online", async (event, subscription) => {
 });
 
 tes.on("stream.offline", async (event, subscription) => {
-  const offlineUrl = "http://archivers.app/media-api/recorder/end";
+  const offlineUrl = "https://archivers.app/media-api/recorder/end";
 
   await axios
     .post(offlineUrl, {
